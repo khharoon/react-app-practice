@@ -15,6 +15,7 @@ function App() {
   let j = i === 10 ? "ten" : "not ten";
 
   let z = i === 10 && "ten";
+  console.log("z value is ", z);
 
   // let j = condition  ? trueValue : falseValue ;
 
