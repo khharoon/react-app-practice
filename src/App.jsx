@@ -2,7 +2,7 @@ import "./App.css";
 import About from "./components/About";
 import ChildrenComponent from "./components/ChildrenComponent";
 import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import Layout from "./components/Layout";
 import Menu from "./components/Menu";
 

@@ -1,3 +1,5 @@
+import Title from "./components/Title";
+
 function Header({a,b, data}) {
   // Aceesing props
 
@@ -8,7 +10,7 @@ function Header({a,b, data}) {
 
   return (
     <header className="header">
-    <h1>My Website </h1>
+   <Title/>
 
       {
         a && <p>a is {a}</p>
