@@ -5,7 +5,12 @@ import UserForm from "./components/UserForm";
 import Users from "./components/Users";
 
 function UsersDashboard() {
-    const [users, setUsers] = useState(usersData);
+  const [users, setUsers] = useState(usersData);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleDeleteUser = (id) => {
+    setUsers((prev) => prev.filter((user) => user.id !== id));
+  };
 
   return (
     <div
@@ -29,8 +34,13 @@ function UsersDashboard() {
           gap: "20px",
         }}
       >
-        <UserForm setUsers={setUsers}/>
-        <Users users={users}/>
+        <UserForm setUsers={setUsers} selectedUser={selectedUser} />
+        <Users
+          users={users}
+          setSelectedUser={setSelectedUser}
+          setUsers={setUsers}
+          handleDeleteUser={handleDeleteUser}
+        />
       </div>
     </div>
   );

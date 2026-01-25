@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usersData } from "../../../../utils/usersData";
 
-const UserForm = ({ setUsers }) => {
+const UserForm = ({ setUsers, selectedUser }) => {
   const [values, setValues] = useState({
     name: "",
     email: "",
   });
 
+  // 🔥 Sync selectedUser with form state
+  useEffect(() => {
+    if (selectedUser) {
+      setValues({
+        name: selectedUser.name,
+        email: selectedUser.email,
+      });
+    } else {
+      setValues({
+        name: "",
+        email: "",
+      });
+    }
+  }, [selectedUser]);
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setValues((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
   };
 
@@ -18,30 +35,37 @@ const UserForm = ({ setUsers }) => {
 
     if (!values.name || !values.email) return;
 
-    setUsers((prevUsers) => [
-      ...prevUsers,
-      {
-        id: prevUsers.length + 1,
-        name: values.name,
-        email: values.email,
-      },
-    ]);
+    if (selectedUser) {
+      // ✅ update user
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.id === selectedUser.id
+            ? { ...user, ...values }
+            : user
+        )
+      );
+    } else {
+      // ✅ add user
+      setUsers((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          ...values,
+        },
+      ]);
+    }
 
-    // clear form
+    // reset form after submit
     setValues({ name: "", email: "" });
   };
 
   return (
     <div>
-      <h3>Add User</h3>
+      <h3>{selectedUser ? "Update User" : "Add User"}</h3>
 
       <form
         onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
+        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
       >
         <input
           type="text"
@@ -59,7 +83,9 @@ const UserForm = ({ setUsers }) => {
           onChange={handleChange}
         />
 
-        <button type="submit">Add User</button>
+        <button type="submit">
+          {selectedUser ? "Update" : "Add"} User
+        </button>
       </form>
     </div>
   );
